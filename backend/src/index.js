@@ -114,13 +114,26 @@ app.use("/api/messages", messageRoutes);
 
 
 
+// if (process.env.NODE_ENV === "production") {
+//     // Serve static files from the 'assets' folder
+//     app.use(express.static(path.join(__dirname, "../frontend/dist/assets")));
+  
+//     // Serve the index.html file for all other routes
+//     app.get("*", (req, res) => {
+//       res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+//     });
+//   }
+  
+
 if (process.env.NODE_ENV === "production") {
+    const distFolderPath = path.join(__dirname, "../frontend/dist");
+  
     // Serve static files from the 'assets' folder
-    app.use(express.static(path.join(__dirname, "../frontend/dist/assets")));
+    app.use(express.static(path.join(distFolderPath, "assets")));
   
     // Serve the index.html file for all other routes
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+      res.sendFile(path.join(distFolderPath, "index.html"));
     });
   }
   
