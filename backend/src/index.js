@@ -1,60 +1,115 @@
-// const express = require("express")
-import express from "express"// use this when using type module
-import dotenv from "dotenv" 
-import cookieParser from "cookie-parser"
-import { connectDB } from "./lib/db.js"
-import cors from "cors"
+// // const express = require("express")
+// import express from "express"// use this when using type module
+// import dotenv from "dotenv" 
+// import cookieParser from "cookie-parser"
+// import { connectDB } from "./lib/db.js"
+// import cors from "cors"
 
-import{app,server} from "./lib/socket.js"
+// import{app,server} from "./lib/socket.js"
 
-import authRoutes from "./routes/auth.route.js"
-import messageRoutes from "./routes/message.route.js"
+// import authRoutes from "./routes/auth.route.js"
+// import messageRoutes from "./routes/message.route.js"
 
-import path from "path"
-// import { Buffer } from 'buffer';
+// import path from "path"
+// // import { Buffer } from 'buffer';
 
-dotenv.config()
+// dotenv.config()
 
-// const app=express();
+// // const app=express();
 
-const __dirname=path.resolve
+// const __dirname=path.resolve
 
-app.use(express.json({ limit: '10mb' }));  // Allow 10MB for JSON bodies
-app.use(express.urlencoded({ limit: '10mb', extended: true }));  // Allow 10MB for URL-encoded bodies
+// app.use(express.json({ limit: '10mb' }));  // Allow 10MB for JSON bodies
+// app.use(express.urlencoded({ limit: '10mb', extended: true }));  // Allow 10MB for URL-encoded bodies
 
 
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors({
-origin:"http://localhost:5173",
-credentials:true
+// app.use(express.json())
+// app.use(cookieParser())
+// app.use(cors({
+// origin:"http://localhost:5173",
+// credentials:true
+// }
+// ))
+
+
+// const PORT=process.env.PORT
+// app.use("/api/auth",authRoutes)
+// app.use("/api/messages",messageRoutes)
+
+
+// if(process.env.NODE_ENV==="production")
+// {
+//     app.use(express.static(path.join(__dirname,"../frontend/dist")));
+
+//     app.get("*",(req,res)=>
+//     {
+//         res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+
+//     }
+//     )
+// }
+
+// server.listen(PORT,()=>{
+// console.log("Server is running at port 5001 , you are doing right");
+// connectDB();
+// });
+
+// // app.listen(PORT,()=>{
+// //     console.log("Server is running at port 5001 , you are doing right");
+// //     connectDB();
+// //     });
+
+
+
+
+
+import express from "express"; // Use this when using type module
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import { connectDB } from "./lib/db.js";
+import cors from "cors";
+
+import { app, server } from "./lib/socket.js";
+
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Set up environment variables
+dotenv.config();
+
+// Fix __dirname for ES modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Middleware setup
+app.use(express.json({ limit: "10mb" })); // Allow 10MB for JSON bodies
+app.use(express.urlencoded({ limit: "10mb", extended: true })); // Allow 10MB for URL-encoded bodies
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+// Routes
+const PORT = process.env.PORT || 5001;
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+
+// Production build setup
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
 }
-))
 
-
-const PORT=process.env.PORT
-app.use("/api/auth",authRoutes)
-app.use("/api/messages",messageRoutes)
-
-
-if(process.env.NODE_ENV==="production")
-{
-    app.use(express.static(path.join(__dirname,"../frontend/dist")));
-
-    app.get("*",(req,res)=>
-    {
-        res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
-
-    }
-    )
-}
-
-server.listen(PORT,()=>{
-console.log("Server is running at port 5001 , you are doing right");
-connectDB();
+// Start the server
+server.listen(PORT, () => {
+  console.log(`Server is running at port ${PORT}, you are doing great!`);
+  connectDB();
 });
-
-// app.listen(PORT,()=>{
-//     console.log("Server is running at port 5001 , you are doing right");
-//     connectDB();
-//     });
