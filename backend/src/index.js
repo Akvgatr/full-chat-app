@@ -138,7 +138,6 @@
 //   }
   
 
-
 // // Start the server
 // server.listen(PORT, () => {
 //   console.log(`Server is running at port ${PORT}, you are doing great!`);
@@ -172,10 +171,16 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+
+app.use(express.json({ limit: "10mb" })); // Allow 10MB for JSON bodies
+app.use(express.urlencoded({ limit: "10mb", extended: true })); // Allow 10MB for URL-encoded bodies
+
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
