@@ -173,14 +173,14 @@ app.use(
 );
 
 
+app.use(express.json({ limit: "50mb" })); // Increase to 50MB
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+
 
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-
-app.use(express.json({ limit: "50mb" })); // Increase to 50MB
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
-
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
