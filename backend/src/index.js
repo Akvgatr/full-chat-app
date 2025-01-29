@@ -178,8 +178,8 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-app.use(express.json({ limit: "10mb" })); // Allow 10MB for JSON bodies
-app.use(express.urlencoded({ limit: "10mb", extended: true })); // Allow 10MB for URL-encoded bodies
+app.use(express.json({ limit: "50mb" })); // Increase to 50MB
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 
 if (process.env.NODE_ENV === "production") {
